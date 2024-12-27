@@ -16,7 +16,7 @@
     </div>
     <div class="relative">
       <img 
-        src="/images/hockey-rink.png" 
+        src="/images/hockey-rink.png"
         alt="Hockey Rink"
         style="width: auto; max-width: 100%; height: auto;"
         @click="handleClick"
