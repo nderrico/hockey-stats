@@ -4,5 +4,5 @@ import vue from '@vitejs/plugin-vue'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  base: '/hockey-stats/', // Update this to match your repository name
+  base: '/hockey-stats-gh-pages/', // Match the repository name exactly
 })
