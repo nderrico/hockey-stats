@@ -1,15 +1,18 @@
 <template>
-  <div class="content-area" style="width: 1200px; margin: 0 auto;">
-    <StatsHeader 
-      :homeStats="homeStats" 
-      :awayStats="awayStats" 
-      :home-team="homeTeam" 
-      :away-team="awayTeam"
-      @update:homeTeam="homeTeam = $event"
-      @update:awayTeam="awayTeam = $event"
-      :shooting-direction="shootingDirection"
-      @update:shootingDirection="shootingDirection = $event"
-    />
+  <div class="content-area">
+    <div class="header-container">
+      <StatsHeader 
+        :homeStats="homeStats" 
+        :awayStats="awayStats" 
+        :home-team="homeTeam" 
+        :away-team="awayTeam"
+        @update:homeTeam="homeTeam = $event"
+        @update:awayTeam="awayTeam = $event"
+        :shooting-direction="shootingDirection"
+        @update:shootingDirection="shootingDirection = $event"
+        @toggleMenu="isMenuOpen = !isMenuOpen"
+      />
+    </div>
     <Controls 
       :isGoal="isGoal" 
       :isHome="isHome" 
@@ -21,6 +24,7 @@
       @update:selectedPeriod="selectedPeriod = $event"
       :undoLastShot="undoLastShot" 
       :clearShots="clearShots" 
+      v-model:isMenuOpen="isMenuOpen"
     />
     <RinkImage 
       :shots="filteredShots" 
@@ -47,6 +51,7 @@ const selectedPeriod = ref(1);
 const homeTeam = ref('Home');
 const awayTeam = ref('Away');
 const shootingDirection = ref('left');
+const isMenuOpen = ref(false);
 
 const filteredShots = computed(() => {
   if (selectedPeriod.value === 'All') {
@@ -157,7 +162,19 @@ const getShotStyle = (shot) => {
 
 <style scoped>
 .content-area {
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header-container {
+  position: sticky;
+  top: 0;
+  z-index: 51;
+  background-color: white;
 }
 </style>

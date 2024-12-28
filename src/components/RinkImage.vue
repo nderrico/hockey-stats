@@ -1,24 +1,23 @@
 <template>
-  <div class="rink-container" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
-    <div class="mb-4 flex items-center gap-3">
+  <div class="rink-container">
+    <div class="my-4 flex items-center justify-center gap-3 px-4">
       <template v-if="effectiveShootingDirection === 'left'">
-        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-6 h-6 md:w-8 md:h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
-        <span class="text-2xl">{{ homeTeam }} shoots</span>
+        <span class="text-lg md:text-2xl">{{ homeTeam }} shoots</span>
       </template>
       <template v-else>
-        <span class="text-2xl">{{ homeTeam }} shoots</span>
-        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <span class="text-lg md:text-2xl">{{ homeTeam }} shoots</span>
+        <svg class="w-6 h-6 md:w-8 md:h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
         </svg>
       </template>
     </div>
-    <div class="relative">
+    <div class="rink-image-container">
       <img 
         src="/images/hockey-rink.png"
         alt="Hockey Rink"
-        style="width: auto; max-width: 100%; height: auto;"
         @click="handleClick"
         :class="['hockey-rink', { 'cursor-not-allowed': !canRecordShots }]"
         ref="rinkImage"
@@ -29,12 +28,12 @@
         :style="getShotStyle(shot)"
         class="shot-marker"
       >
-        <span v-if="shot.isGoal" class="shot-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" :style="{ stroke: shot.team === 'home' ? '#000080' : '#FF0000' }" width="24" height="24">
+        <span v-if="shot.isGoal">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" :style="{ stroke: shot.team === 'home' ? '#1e3a8a' : '#dc2626' }" width="24" height="24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </span>
-        <span v-else :class="{'text-navy-600': shot.team === 'home', 'text-red-600': shot.team === 'away'}" style="font-size: 48px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">•</span>
+        <span v-else :class="{'text-blue-900': shot.team === 'home', 'text-red-600': shot.team === 'away'}" class="shot-dot">•</span>
       </div>
     </div>
   </div>
@@ -98,22 +97,56 @@ export default {
 
 <style scoped>
 .rink-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 1rem;
+  flex-grow: 1;
+}
+
+.rink-image-container {
   position: relative;
-  display: inline-block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hockey-rink {
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 200px);
+  object-fit: contain;
 }
 
 .shot-marker {
   position: absolute;
   transform: translate(-50%, -50%);
-  z-index: 10;
+  pointer-events: none;
 }
 
-.shot-icon {
-  display: block;
-  position: relative;
+.shot-dot {
+  font-size: 24px;
+  line-height: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.cursor-not-allowed {
-  cursor: not-allowed;
+@media (min-width: 768px) {
+  .shot-dot {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .shot-dot {
+    font-size: 48px;
+  }
 }
 </style>
